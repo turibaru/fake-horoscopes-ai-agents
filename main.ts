@@ -5,10 +5,10 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const text = readFileSync(join(here, "entry.txt"), "utf8");
 
-// The 1–200 character guard keeps this horoscope to one short line; empty or overlong text is rejected before anything is written.
-// The entry is read from the folder beside this script, via import.meta.url,
-// not from the process working directory, so the check behaves the same
-// no matter where the command is launched from.
+// Only a single short horoscope may pass here: anything blank, or longer than two hundred characters, stops the run right away.
+// The source file sits next to this program file, and its path is worked out from the program's own location,
+// which means the result does not depend on the directory the command was typed in —
+// running it from anywhere still finds the same file.
 if (text.trim().length === 0 || text.length < 1 || text.length > 200) {
   console.error(`entry.txt must be 1-200 characters, got ${text.length}`);
   process.exit(1);
